@@ -11,8 +11,13 @@ module.exports = {
     }
   },
 
-  included: function included(app, parentAddon) {
-    var target = parentAddon || app;
+  included: function included(app) {
+    var target = app;
+
+    while (typeof target.import !== 'function' && (target.app || target.parent)) {
+      target = target.app || target.parent;
+    }
+
     var configMessage = [];
     var o = target.options['ember-cli-bootstrap-sassy'] || { js: true, glyphicons: true };
 
